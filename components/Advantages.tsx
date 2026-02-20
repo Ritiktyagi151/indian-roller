@@ -34,16 +34,17 @@ export default function AdvantagesSection() {
 
   return (
     <section className="relative w-full bg-white overflow-hidden">
-      {/* --- TOP SECTION: Cards with Repeating Directional Slides --- */}
-      <div className="max-w-7xl  mx-auto px-6 pb-24 grid grid-cols-1 md:grid-cols-3 gap-4 relative z-20">
+      {/* --- TOP SECTION: Cards --- */}
+      {/* Desktop style wahi rakha hai (inset-y classes ke sath), Mobile ke liye stack kiya hai */}
+      <div className="max-w-7xl mx-auto px-6 pb-24 grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-4 relative z-20">
         
-        {/* Left to Right Slide - Triggered on Every Scroll */}
+        {/* Left Card */}
         <motion.div 
           initial={{ opacity: 0, x: -100 }}
           whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: false, amount: 0.2 }} // Repeats on every scroll
+          viewport={{ once: false, amount: 0.2 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="relative h-[450px] inset-y-68  group overflow-hidden"
+          className="relative h-[450px] md:inset-y-64 group overflow-hidden"
         >
           <Image src="/71v8jfCWSvL._AC_UF1000,1000_QL80_.jpg" alt="Architecture" fill className="object-cover transition-transform duration-500 group-hover:scale-110" />
           <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
@@ -51,13 +52,13 @@ export default function AdvantagesSection() {
           </div>
         </motion.div>
 
-        {/* Bottom to Top Slide - Triggered on Every Scroll */}
+        {/* Middle Card */}
         <motion.div 
           initial={{ opacity: 0, y: 100 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, amount: 0.2 }} // Repeats on every scroll
+          viewport={{ once: false, amount: 0.2 }}
           transition={{ duration: 0.8, ease: "easeOut", delay: 0.1 }}
-          className="relative h-[450px] inset-y-52 group overflow-hidden"
+          className="relative h-[450px] md:inset-y-44 group overflow-hidden"
         >
           <Image src="/China-Decai-Rubber-Roller-Factory-Neoprene-Rubber-Coating-Conveyor-Roller.avif" alt="Engineering" fill className="object-cover transition-transform duration-500 group-hover:scale-110" />
           <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
@@ -65,13 +66,13 @@ export default function AdvantagesSection() {
           </div>
         </motion.div>
 
-        {/* Right to Left Slide - Triggered on Every Scroll */}
+        {/* Right Card */}
         <motion.div 
           initial={{ opacity: 0, x: 100 }}
           whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: false, amount: 0.2 }} // Repeats on every scroll
+          viewport={{ once: false, amount: 0.2 }}
           transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
-          className="relative h-[450px] group inset-y-32 overflow-hidden"
+          className="relative h-[450px] group md:inset-y-24 overflow-hidden"
         >
           <Image src="/industrial-roller-conveyor-with-metal-rollers-and-vibrant-yellow-rails-in-a-spacious-modern-warehouse-or-manufacturing-facility-with-bright-overhead-lighting-photo.jpg" alt="Interior" fill className="object-cover transition-transform duration-500 group-hover:scale-110" />
           <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
@@ -80,12 +81,12 @@ export default function AdvantagesSection() {
         </motion.div>
       </div>
 
-      {/* --- MIDDLE SECTION: Repeating Zoom-in Background --- */}
-      <div className="relative w-full h-[500px] lg:h-[600px] pt-24 flex justify-end items-center overflow-hidden">
+      {/* --- MIDDLE SECTION: Testimonials --- */}
+      <div className="relative w-full min-h-[500px] lg:h-[600px] pt-24 flex justify-center lg:justify-end items-center overflow-hidden">
         <motion.div 
           initial={{ scale: 1.2, opacity: 0 }}
           whileInView={{ scale: 1, opacity: 1 }}
-          viewport={{ once: false }} // Repeats on every scroll
+          viewport={{ once: false }}
           transition={{ duration: 1.5 }}
           className="absolute inset-0 z-0"
         >
@@ -93,21 +94,20 @@ export default function AdvantagesSection() {
           <div className="absolute inset-0 bg-orange-500/90 mix-blend-multiply"></div>
         </motion.div>
 
-        {/* Content Slides in from Right every scroll */}
         <motion.div 
           initial={{ opacity: 0, x: 50 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: false }} 
           transition={{ duration: 0.8, delay: 0.3 }}
-          className="relative z-10 w-full lg:w-1/2 p-12 lg:p-24 text-white"
+          className="relative z-10 w-full lg:w-1/2 p-8 md:p-12 lg:p-24 text-white"
         >
           <span className="text-8xl font-serif opacity-30 leading-none">“</span>
           <p className="text-[15px] uppercase font-bold tracking-[4px] mb-4 -mt-6">Testimonials</p>
-          <h2 className="text-4xl font-black uppercase tracking-tighter mb-8 leading-tight">
+          <h2 className="text-3xl md:text-4xl font-black uppercase tracking-tighter mb-8 leading-tight">
             What Our <br /> Clients Say
           </h2>
           
-          <div className="h-[160px]"> 
+          <div className="min-h-[160px]"> 
             <AnimatePresence mode="wait">
               <motion.div
                 key={current}
@@ -138,19 +138,19 @@ export default function AdvantagesSection() {
         </motion.div>
       </div>
 
-      {/* --- BOTTOM SECTION: Black Overlap Repeating Slide Up --- */}
+      {/* --- BOTTOM SECTION: Black Overlap --- */}
       <motion.div 
         initial={{ opacity: 0, y: 100 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: false, amount: 0.3 }} // Animation resets when you scroll away
+        viewport={{ once: false, amount: 0.3 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
-        className="relative z-30 bg-black text-white w-full lg:w-[52%] py-24 px-12 lg:pl-32 mt-[-150px] lg:mt-[-250px]"
+        className="relative z-30 bg-black text-white w-full lg:w-[52%] py-24 px-8 md:px-12 lg:pl-32 mt-[-50px] lg:mt-[-250px]"
       >
         <p className="text-gray-500 font-bold text-[10px] tracking-[4px] uppercase mb-4">Advantages</p>
         <h2 className="text-3xl lg:text-5xl font-black uppercase tracking-tighter mb-8 leading-tight">
           Working on <br /> Exclusive Projects
         </h2>
-        {/* Repeating Orange Line Animation */}
+        
         <motion.div 
           initial={{ width: 0 }}
           whileInView={{ width: 64 }}
@@ -158,12 +158,10 @@ export default function AdvantagesSection() {
           transition={{ duration: 1, delay: 0.5 }}
           className="h-1 bg-orange-500 mb-8"
         ></motion.div>
+        
         <p className="text-gray-500 text-xs leading-6 max-w-sm mb-12">
           Designing sustainable, high-performance buildings requires an integration of architectural and engineered systems into a balanced design.
         </p>
-        {/* <button className="border border-orange-500 px-10 py-4 text-[10px] font-bold uppercase tracking-[2px] hover:bg-orange-500 transition-all">
-          View More
-        </button> */}
       </motion.div>
     </section>
   );
