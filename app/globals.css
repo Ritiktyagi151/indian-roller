@@ -1,26 +1,97 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@tailwind utilities;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --color-background: #000;
+    --color-text: #fff0f4;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    background: var(--color-background);
+    color: var(--color-text);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer utilities {
+  /* Scroll Driven Animation Logic */
+  .container-snap {
+    height: 100vh;
+    overflow-y: auto;
+    scroll-snap-type: y mandatory;
+    timeline-scope: --section;
+  }
+
+  .section-snap {
+    height: 100vh;
+    scroll-snap-align: start;
+    view-timeline: --section;
+  }
+
+  .content-fixed {
+    position: fixed;
+    inset: 0;
+    animation: linear both;
+    animation-timeline: --section;
+    animation-range: exit 0% exit 100%;
+  }
+
+  /* Effects */
+  .effect-blink {
+    animation-name: blink;
+  }
+  .effect-horizontal {
+    animation-name: horizontal;
+  }
+  .effect-backwards {
+    animation-name: backwards;
+  }
+  .effect-zoom {
+    animation-name: zoom;
+  }
+
+  @keyframes blink {
+    0% {
+      opacity: 1;
+      filter: brightness(1);
+    }
+    50% {
+      opacity: 0;
+      filter: brightness(2);
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes horizontal {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-100%);
+    }
+  }
+
+  @keyframes backwards {
+    from {
+      transform: translateY(0);
+    }
+    to {
+      transform: translateY(100%);
+    }
+  }
+
+  @keyframes zoom {
+    from {
+      transform: scale(1);
+      opacity: 1;
+    }
+    to {
+      transform: scale(5);
+      opacity: 0;
+    }
+  }
 }
