@@ -21,7 +21,6 @@ const Navbar = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [categories, setCategories] = useState<any[]>([]);
 
-  // Fixed JSX.Element error by using React.ReactNode
   const getIcon = (slug: string): React.ReactNode => {
     const iconMap: { [key: string]: React.ReactNode } = {
       "steel-industry": <FaIndustry />,
@@ -69,7 +68,7 @@ const Navbar = () => {
   return (
     <header className="w-full fixed top-0 left-0 z-[100] font-sans">
       {/* --- TOP BAR --- */}
-      <div className={`bg-black text-white px-6 hidden lg:block border-b border-white/10 transition-all duration-500 ease-in-out overflow-hidden ${
+      <div className={`bg-black/60 text-white px-6 hidden lg:block border-b border-white/10 transition-all duration-500 ease-in-out overflow-hidden ${
         isScrolled ? "h-0 opacity-0 border-none" : "h-[45px] py-3 opacity-100"
       }`}>
         <div className="max-w-7xl mx-auto flex justify-between items-center text-[12px] opacity-80 uppercase tracking-widest font-bold">
@@ -78,9 +77,9 @@ const Navbar = () => {
             <Link href="mailto:info@indianroller.com" className="flex items-center gap-2 hover:text-orange-500 transition"><FaEnvelope className="text-orange-500"/> info@indianroller.com</Link>
           </div>
           <div className="flex gap-5 text-lg">
-            <FaFacebookF className="hover:text-orange-500 cursor-pointer transition-colors" />
-            <FaLinkedinIn className="hover:text-orange-500 cursor-pointer transition-colors" />
-            <FaYoutube className="hover:text-orange-500 cursor-pointer transition-colors" />
+            <Link href="https://facebook.com" target="_blank"><FaFacebookF className="text-[#1877F2] hover:opacity-80 transition-opacity cursor-pointer" /></Link>
+            <Link href="https://linkedin.com" target="_blank"><FaLinkedinIn className="text-[#0A66C2] hover:opacity-80 transition-opacity cursor-pointer" /></Link>
+            <Link href="https://youtube.com" target="_blank"><FaYoutube className="text-[#FF0000] hover:opacity-80 transition-opacity cursor-pointer" /></Link>
           </div>
         </div>
       </div>
@@ -89,24 +88,29 @@ const Navbar = () => {
       <nav 
         onMouseLeave={() => setShowProducts(false)} 
         className={`transition-all duration-500 px-6 w-full ${
-          isScrolled ? "bg-black/90 backdrop-blur-md shadow-2xl" : "bg-[#1a1a1a]/20 backdrop-blur-sm"
+          isScrolled ? "bg-black/90 backdrop-blur-md shadow-2xl" : " backdrop-blur-[4px]"
         }`}
       >
         <div className={`max-w-[1400px] mx-auto flex justify-between items-center transition-all duration-500 ${
-          isScrolled ? "h-[70px]" : "h-[80px] md:h-[100px]"
+          isScrolled ? "h-[75px]" : "h-[80px] md:h-[100px]"
         }`}>
-          <Link href="/" className="relative z-[110]" onClick={closeMenus}>
-            <Image 
-              src="/logo1.png" 
-              alt="Indian Roller Logo" 
-              width={180} 
-              height={50} 
-              className={`transition-all duration-500 w-auto ${isScrolled ? "h-10 md:h-14" : "h-10 md:h-20"}`} 
-            />
-          </Link>
+          <motion.div 
+            animate={{ y: [0, -5, 0] }}
+            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+            className="relative z-[110]"
+          >
+            <Link href="/" onClick={closeMenus}>
+              <Image 
+                src="/logo1.png" 
+                alt="Indian Roller Logo" 
+                width={180} 
+                height={50} 
+                className={`transition-all duration-500 w-auto ${isScrolled ? "h-10 md:h-17" : "h-10 md:h-20"}`} 
+              />
+            </Link>
+          </motion.div>
 
-          {/* Desktop Menu */}
-          <div className="hidden lg:flex gap-10 items-center font-black text-[11px] tracking-[2px] text-white">
+          <div className="hidden lg:flex gap-10 items-center font-black text-[14px] tracking-[2px] text-white">
             <Link href="/" className="hover:text-orange-500 transition-colors">HOME</Link>
             <Link href="/about" className="hover:text-orange-500 transition-colors">ABOUT</Link>
             <div onMouseEnter={() => setShowProducts(true)} className="flex items-center gap-1 cursor-pointer hover:text-orange-500 transition-colors py-2 uppercase">
@@ -114,16 +118,29 @@ const Navbar = () => {
             </div>
             <Link href="/blogs" className="hover:text-orange-500 transition-colors">BLOG</Link>
             <Link href="/contact" className="hover:text-orange-500 transition-colors">CONTACT</Link>
-            <button onClick={() => setIsPopupOpen(true)} className="bg-orange-600 hover:bg-white hover:text-black px-8 py-3.5 transition-all duration-300 rounded-sm shadow-lg shadow-orange-600/20">GET IN TOUCH</button>
+            
+            <motion.button 
+              animate={{ rotate: [0, -12, 12, -12, 12, 0] }}
+              transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+              whileHover={{ scale: 1.1, rotate: 0, transition: { duration: 0.2 } }}
+              onClick={() => setIsPopupOpen(true)} 
+              className="relative overflow-hidden bg-orange-600 hover:bg-white text-[11px] hover:text-black px-8 py-3.5 transition-all duration-300 rounded-sm font-black uppercase tracking-widest shadow-[0_0_15px_rgba(234,88,12,0.3)] group"
+            >
+              <motion.span 
+                initial={{ left: "-100%" }}
+                animate={{ left: "100%" }}
+                transition={{ duration: 1.5, repeat: Infinity, ease: "linear", repeatDelay: 0.5 }}
+                className="absolute top-0 w-1/2 h-full bg-gradient-to-r from-transparent via-white/40 to-transparent skew-x-[-25deg] pointer-events-none"
+              />
+              <span className="relative z-10">GET IN TOUCH</span>
+            </motion.button>
           </div>
 
-          {/* Mobile Toggle */}
           <button className="lg:hidden text-white text-2xl relative z-[110]" onClick={() => setIsMenuOpen(!isMenuOpen)}>
             {isMenuOpen ? <FaTimes className="text-orange-500" /> : <FaBars />}
           </button>
         </div>
 
-        {/* --- DESKTOP MEGA MENU --- */}
         <AnimatePresence>
           {showProducts && (
             <motion.div variants={megaMenuVars} initial="initial" animate="animate" exit="exit" onMouseEnter={() => setShowProducts(true)} onMouseLeave={() => setShowProducts(false)} className="absolute left-0 top-full w-full bg-[#0a0a0b] border-t-2 border-orange-600 shadow-2xl hidden lg:block">
@@ -137,57 +154,96 @@ const Navbar = () => {
                   </motion.div>
                 ))}
               </div>
-              <div className="bg-orange-600 py-2 text-center text-[9px] font-black tracking-[4px] text-white">
-                INDIAN ROLLER INDUSTRIES - EXCELLENCE IN EVERY TURN
-              </div>
             </motion.div>
           )}
         </AnimatePresence>
       </nav>
 
-      {/* --- MOBILE SIDEBAR MENU --- */}
+      {/* --- MOBILE SIDEBAR WITH ENHANCED ANIMATION --- */}
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div
-            initial={{ x: "100%" }}
-            animate={{ x: 0 }}
-            exit={{ x: "100%" }}
+            initial={{ x: "100%", opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            exit={{ x: "100%", opacity: 0 }}
             transition={{ type: "spring", damping: 25, stiffness: 200 }}
             className="fixed inset-0 bg-[#0a0a0b] z-[150] lg:hidden flex flex-col"
           >
             <div className="flex justify-between items-center px-6 py-5 border-b border-white/10 bg-[#111]">
               <Image src="/logo1.png" alt="Logo" width={140} height={40} className="w-auto h-8" />
-              <button onClick={() => setIsMenuOpen(false)} className="text-orange-500 text-3xl"><FaTimes /></button>
-            </div>
-
-            <div className="flex-1 overflow-y-auto px-6 py-8 flex flex-col space-y-4">
-              {['HOME', 'ABOUT', 'BLOG', 'CONTACT'].map((item, i) => (
-                <Link key={i} href={item === 'HOME' ? '/' : `/${item.toLowerCase()}`} onClick={closeMenus} className="text-4xl font-black text-white hover:text-orange-500 transition-colors italic uppercase tracking-tighter">{item}</Link>
-              ))}
-              
-              <div className="pt-4 border-t border-white/10">
-                <button onClick={() => setMobileProductOpen(!mobileProductOpen)} className="w-full flex justify-between items-center text-4xl font-black text-orange-500 uppercase italic tracking-tighter">
-                  PRODUCTS <FaChevronDown size={24} className={`transition-transform ${mobileProductOpen ? "rotate-180" : ""}`} />
-                </button>
-                
-                <AnimatePresence>
-                  {mobileProductOpen && (
-                    <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="mt-6 grid grid-cols-1 gap-3 overflow-hidden">
-                      {categories.map((item, index) => (
-                        <Link key={index} href={`/products-${item.slug}`} onClick={closeMenus} className="flex items-center gap-4 p-4 bg-white/5 rounded-xl border border-white/10 italic font-black">
-                          <div className="text-xl text-orange-500">{getIcon(item.slug)}</div>
-                          <span className="text-sm text-gray-200">{item.name}</span>
-                        </Link>
-                      ))}
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
+              <button onClick={() => setIsMenuOpen(false)} className="text-orange-500 text-3xl transition-transform hover:rotate-90"><FaTimes /></button>
             </div>
             
-            <div className="p-6 bg-[#111]">
-              <button onClick={() => { setIsPopupOpen(true); setIsMenuOpen(false); }} className="w-full bg-orange-600 text-white font-bold py-4 rounded-sm tracking-widest uppercase text-xs">Get In Touch</button>
+            <div className="flex-1 overflow-y-auto px-6 py-8 flex flex-col space-y-6">
+              {['HOME', 'ABOUT', 'BLOG', 'CONTACT'].map((item, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ x: 50, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  transition={{ delay: 0.1 * i }}
+                >
+                  <Link 
+                    href={item === 'HOME' ? '/' : `/${item.toLowerCase()}`} 
+                    onClick={closeMenus} 
+                    className="text-5xl font-black text-white hover:text-orange-500 transition-colors italic uppercase tracking-tighter block"
+                  >
+                    {item}
+                  </Link>
+                </motion.div>
+              ))}
+              
+              {/* Mobile Products Section with Slide */}
+              <motion.div 
+                 initial={{ x: 50, opacity: 0 }} 
+                 animate={{ x: 0, opacity: 1 }} 
+                 transition={{ delay: 0.4 }}
+                 className="pt-6 border-t border-white/10"
+              >
+                 <button 
+                   onClick={() => setMobileProductOpen(!mobileProductOpen)}
+                   className="flex items-center justify-between w-full text-4xl font-black text-orange-500 italic uppercase tracking-tighter"
+                 >
+                   PRODUCTS <FaChevronDown className={`transition-transform duration-300 ${mobileProductOpen ? 'rotate-180' : ''}`} />
+                 </button>
+                 
+                 <AnimatePresence>
+                   {mobileProductOpen && (
+                     <motion.div 
+                       initial={{ height: 0, opacity: 0 }}
+                       animate={{ height: "auto", opacity: 1 }}
+                       exit={{ height: 0, opacity: 0 }}
+                       className="overflow-hidden mt-4 space-y-3"
+                     >
+                        {categories.map((cat, idx) => (
+                          <Link 
+                            key={idx} 
+                            href={`/products-${cat.slug}`} 
+                            onClick={closeMenus}
+                            className="flex items-center gap-3 p-3 bg-white/5 rounded-lg text-gray-300 text-sm font-bold uppercase italic"
+                          >
+                            <span className="text-orange-500">{getIcon(cat.slug)}</span>
+                            {cat.name}
+                          </Link>
+                        ))}
+                     </motion.div>
+                   )}
+                 </AnimatePresence>
+              </motion.div>
             </div>
+
+            <motion.div 
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.6 }}
+              className="p-6 bg-[#111]"
+            >
+              <button 
+                onClick={() => { setIsPopupOpen(true); setIsMenuOpen(false); }}
+                className="w-full bg-orange-600 text-white font-black py-4 rounded-sm tracking-widest uppercase text-xs shadow-lg shadow-orange-600/20"
+              >
+                Get In Touch
+              </button>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>

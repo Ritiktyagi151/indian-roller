@@ -33,7 +33,7 @@ const Footer = () => {
   }, []);
 
   return (
-    <footer className="bg-[#1a1a1a] text-white pt-16 font-sans border-t border-white/50">
+    <footer className="bg-[#242424] text-white pt-16 font-sans border-t border-white/50">
       {/* --- TOP FOOTER SECTION --- */}
       <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 pb-16">
         
@@ -47,9 +47,9 @@ const Footer = () => {
             specializing in high-quality rubber rollers and polyurethane products.
           </p>
           <div className="flex gap-4">
-            <Link href="https://www.facebook.com/indianrollerspvtltd/?show_switched_toast=0&show_invite_to_follow=0&show_switched_tooltip=0&show_podcast_settings=0&show_community_review_changes=0&show_community_rollback=0&show_follower_visibility_disclosure=0" target="_blank" className="bg-[#2a2a2a] p-3 rounded-sm hover:bg-orange-500 transition-all text-white"><FaFacebookF size={14}/></Link>
-            <Link href="https://www.linkedin.com/company/indian-roller-pvt-ltd/" target="_blank" className="bg-[#2a2a2a] p-3 rounded-sm hover:bg-orange-500 transition-all text-white"><FaLinkedinIn size={14}/></Link>
-            <Link href="https://www.youtube.com/channel/UC45R-UyW2EaimlwLGIVWl-Q" target="_blank" className="bg-[#2a2a2a] p-3 rounded-sm hover:bg-orange-500 transition-all text-white"><FaYoutube size={14}/></Link>
+            <Link href="https://www.facebook.com/indianrollerspvtltd/?show_switched_toast=0&show_invite_to_follow=0&show_switched_tooltip=0&show_podcast_settings=0&show_community_review_changes=0&show_community_rollback=0&show_follower_visibility_disclosure=0" target="_blank" className="bg-[#1877F2] p-3 rounded-sm hover:opacity-80 transition-all text-white"><FaFacebookF size={14}/></Link>
+            <Link href="https://www.linkedin.com/company/indian-roller-pvt-ltd/" target="_blank" className="bg-[#0A66C2] p-3 rounded-sm hover:opacity-80 transition-all text-white"><FaLinkedinIn size={14}/></Link>
+            <Link href="https://www.youtube.com/channel/UC45R-UyW2EaimlwLGIVWl-Q" target="_blank" className="bg-[#FF0000] p-3 rounded-sm hover:opacity-80 transition-all text-white"><FaYoutube size={14}/></Link>
           </div>
         </div>
 
@@ -125,7 +125,7 @@ const Footer = () => {
       </div>
 
       {/* --- BOTTOM BAR --- */}
-      <div className="bg-black py-8 px-6">
+      <div className="bg-black py-4 px-6">
         <div className="max-w-7xl mx-auto flex flex-col lg:flex-row justify-between items-center gap-8 text-center lg:text-left">
           
           <div className="flex flex-col sm:flex-row items-center gap-6">
@@ -135,7 +135,7 @@ const Footer = () => {
                 alt="Indian Roller Logo" 
                 width={200} 
                 height={200} 
-                className="object-contain w-auto h-8 "
+                className="object-contain w-auto h-10 "
               />
             </Link>
             <span className="text-gray-400 text-[11px] border-gray-800 sm:border-l sm:pl-6 py-1">
@@ -143,10 +143,10 @@ const Footer = () => {
             </span>
           </div>
 
-          <div className="flex gap-6 text-gray-400">
-            <Link href="https://www.facebook.com/indianrollerspvtltd/?show_switched_toast=0&show_invite_to_follow=0&show_switched_tooltip=0&show_podcast_settings=0&show_community_review_changes=0&show_community_rollback=0&show_follower_visibility_disclosure=0" className="hover:text-white transition-colors"><FaFacebookF size={14}/></Link>
-            <Link href="https://www.linkedin.com/company/indian-roller-pvt-ltd/" className="hover:text-white transition-colors"><FaLinkedinIn size={14}/></Link>
-            <Link href="https://www.youtube.com/channel/UC45R-UyW2EaimlwLGIVWl-Q" className="hover:text-white transition-colors"><FaYoutube size={14}/></Link>
+          <div className="flex gap-6 ">
+            <Link href="https://www.facebook.com/indianrollerspvtltd/?show_switched_toast=0&show_invite_to_follow=0&show_switched_tooltip=0&show_podcast_settings=0&show_community_review_changes=0&show_community_rollback=0&show_follower_visibility_disclosure=0" className="text-[#1877F2] transition-colors"><FaFacebookF size={19}/></Link>
+            <Link href="https://www.linkedin.com/company/indian-roller-pvt-ltd/" className="text-[#0A66C2] transition-colors"><FaLinkedinIn size={19}/></Link>
+            <Link href="https://www.youtube.com/channel/UC45R-UyW2EaimlwLGIVWl-Q" className="text-[#FF0000] transition-colors"><FaYoutube size={19}/></Link>
           </div>
           
           <div className="text-[11px] text-gray-500 uppercase tracking-widest">
