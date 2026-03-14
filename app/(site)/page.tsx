@@ -9,12 +9,14 @@ import UnitsSection from "@/components/Units";
 import WhyChooseUs from "@/components/WhyChooseUs";
 
 import BlogSlider from "@/components/BlogSlider";
+import TeamSection from "@/components/TeamSection";
 
 export default function Home() {
   return (
     <main>
       <Hero />
       <AboutSection />
+      <TeamSection/>
       <Advantages />
       <Projects/>
       <Partners/>

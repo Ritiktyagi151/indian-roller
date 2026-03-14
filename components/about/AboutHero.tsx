@@ -10,7 +10,7 @@ interface AboutHeroProps {
 
 const AboutHero = ({ title, subtitle, imagePath }: AboutHeroProps) => {
   return (
-    <section className="relative h-[60vh] min-h-[400px] w-full flex items-center justify-center overflow-hidden">
+    <section className="relative h-[60vh] min-h-[500px] w-full flex items-center justify-center overflow-hidden">
       {/* Background Image with Overlay */}
       <div 
         className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat transition-transform duration-700 hover:scale-105"

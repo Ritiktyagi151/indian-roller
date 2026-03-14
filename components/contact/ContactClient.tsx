@@ -2,6 +2,7 @@
 import React from "react";
 import { motion, Variants } from "framer-motion";
 import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt, FaIndustry, FaPaperPlane, FaGlobeAmericas } from "react-icons/fa";
+import Image from "next/image";
 
 // --- EXISTING ANIMATIONS ---
 const slideFromLeft: Variants = {
@@ -40,24 +41,30 @@ const staggerContainer: Variants = {
 };
 
 const plants = [
-  { id: "01", name: "Unit - 1 (Sahibabad)", address: "Plot No. 62/2/1&2, Site IV, Industrial Area, Sahibabad-201010 UP", phone: "+91-9540408844" },
-  { id: "02", name: "Unit - 2 (Jamshedpur)", address: "Shed no.1, Plot No-743, Ghamaria, Jamshedpur, Jharkhand - 832108", phone: "+91-8744885000" },
-  { id: "03", name: "Unit - 3 (Ahmedabad)", address: "Plot No. 226 to 229, Gopalcharan-2, Industrial Park, Ahmedabad-382433", phone: "+91-9376921082" },
-  { id: "04", name: "Unit - 4 (Bangladesh)", address: "South Kashimpur Panchagachia, Mohipal Feni, Bangladesh", phone: "+880-01741064260" },
-  { id: "05", name: "Unit - 5 (Ballari)", address: "Property No-5331481412, Kurekuppa Village, Sandur, Ballari, Karnataka - 583119", phone: "+91-9540404842" }
+  { id: "01", name: "Unit - 1 (Sahibabad)", address: "Plot No. 62/2/1&2, Site IV, Industrial Area, Sahibabad-201010 UP", phone: "+91-9540408844", img: "/team-img/DSC_4293.JPG" },
+  { id: "02", name: "Unit - 2 (Jamshedpur)", address: "Shed no.1, Plot No-743, Ghamaria, Jamshedpur, Jharkhand - 832108", phone: "+91-8744885000", img: "/team-img/jamshedpur-team.JPG" },
+  { id: "03", name: "Unit - 3 (Ahmedabad)", address: "Plot No. 226 to 229, Gopalcharan-2, Industrial Park, Ahmedabad-382433", phone: "+91-9376921082", img: "/team-img/ahmdabad.JPG" },
+  { id: "04", name: "Unit - 4 (Ballari)", address: "Property No-5331481412, Kurekuppa Village, Sandur, Ballari, Karnataka - 583119", phone: "+91-9540404842", img: "/team-img/kanatka2.JPG" },
+  { id: "05", name: "Unit - 5 (Bangladesh)", address: "South Kashimpur Panchagachia, Mohipal Feni, Bangladesh", phone: "+880-01741064260", img: "/about-img/about-bg.jpg" },
 ];
 
 export default function ContactClient() {
   return (
     <main className="bg-white overflow-hidden text-sm md:text-base font-sans">
       
-      {/* --- HERO SECTION --- */}
-      <section className="relative py-24 md:py-48 text-white overflow-hidden">
-        <div 
-          className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat grayscale-[50%]"
-          style={{ backgroundImage: `url('/industry-img/mislinious.jpg')` }}
-        />
-        <div className="absolute inset-0 z-10 bg-black/70" /> 
+      {/* --- HERO SECTION WITH VIDEO --- */}
+      <section className="relative h-[60vh] md:h-[80vh] flex items-center text-white overflow-hidden">
+        <video 
+          autoPlay 
+          muted 
+          loop 
+          playsInline 
+          className="absolute inset-0 w-full h-full object-cover grayscale-[40%]"
+        >
+          <source src="/videos/news-video.mp4" type="video/mp4" /> {/* Apni video ka path yahan check karein */}
+        </video>
+        
+        <div className="absolute inset-0 z-10 bg-black/60" /> 
         <div className="absolute inset-0 z-20 bg-orange-500/10 skew-y-3 origin-right transform scale-110" />
 
         <div className="max-w-6xl mx-auto px-6 relative z-30">
@@ -76,7 +83,7 @@ export default function ContactClient() {
         </div>
       </section>
 
-      {/* --- SPLIT SECTION: Form vs Map --- */}
+      {/* --- SPLIT SECTION: Form vs Map (Same Style) --- */}
       <section className="grid grid-cols-1 lg:grid-cols-2">
         <motion.div 
           initial="hidden" 
@@ -141,7 +148,7 @@ export default function ContactClient() {
         </motion.div>
       </section>
 
-      {/* --- ROADMAP --- */}
+      {/* --- FOOTPRINT SECTION WITH UNIT IMAGES --- */}
       <section className="py-16 md:py-24 bg-gray-50 relative">
         <div className="max-w-6xl mx-auto px-6">
           <motion.div 
@@ -152,16 +159,27 @@ export default function ContactClient() {
             <div className="w-24 h-1.5 bg-orange-500 mx-auto mt-3" />
           </motion.div>
 
-          <div className="space-y-16 md:space-y-24">
+          <div className="space-y-24 md:space-y-32">
             {plants.map((unit, i) => (
               <motion.div 
                 key={unit.id}
                 variants={i % 2 === 0 ? slideFromLeft : slideFromRight}
                 initial="hidden" whileInView="visible" viewport={{ once: false, amount: 0.3 }}
-                className={`flex flex-col lg:flex-row items-center gap-8 md:gap-12 ${i % 2 !== 0 ? "lg:flex-row-reverse" : ""}`}
+                className={`flex flex-col lg:flex-row items-center gap-10 md:gap-16 ${i % 2 !== 0 ? "lg:flex-row-reverse" : ""}`}
               >
+                {/* Image Section */}
+                <div className="lg:w-1/2 w-full h-[300px] md:h-[400px] relative group overflow-hidden shadow-2xl rounded-sm">
+                    <Image 
+                        src={unit.img} 
+                        alt={unit.name} 
+                        fill 
+                        className="object-cover transition-transform duration-700 group-hover:scale-110 grayscale-[30%] group-hover:grayscale-0"
+                    />
+                    <div className="absolute inset-0 bg-orange-500/10 group-hover:bg-transparent transition-all duration-500" />
+                </div>
+
+                {/* Content Section */}
                 <div className="lg:w-1/2 group relative w-full">
-                  <div className="absolute -inset-2 bg-orange-500/5 group-hover:bg-orange-500/10 transition-all duration-500 -z-10 rounded-lg" />
                   <motion.div 
                     whileHover={{ y: -5 }}
                     className="bg-white p-8 md:p-10 shadow-[12px_12px_0px_0px_rgba(249,115,22,1)] border border-gray-100"
@@ -181,21 +199,13 @@ export default function ContactClient() {
                     </div>
                   </motion.div>
                 </div>
-                <div className="lg:w-1/2 flex justify-center hidden md:flex">
-                   <motion.div 
-                    animate={{ rotate: 360 }} transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-                    className="w-24 h-24 lg:w-32 lg:h-32 border-4 border-dashed border-orange-500/20 rounded-full flex items-center justify-center text-orange-500/30"
-                   >
-                     <FaGlobeAmericas size={40} className="animate-pulse" />
-                   </motion.div>
-                </div>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* --- NEW MIRROR GLASS QUICK LINKS --- */}
+      {/* --- QUICK LINKS (Same Style) --- */}
       <motion.section 
         variants={staggerContainer} 
         initial="hidden" 
@@ -204,52 +214,28 @@ export default function ContactClient() {
         className="bg-[#050505] py-24 md:py-16 relative overflow-hidden"
       >
         <div className="absolute inset-0 z-0 bg-gradient-to-b from-black via-[#080808] to-black" />
-        
         <div className="max-w-7xl mx-auto px-6 relative z-10">
-         
-
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 ">
             {[
               { label: "GET AN EMAIL", val: "info@indianroller.com", icon: <FaEnvelope />, color: "from-orange-500 to-red-600" },
-              { label: "MAKE A CALL", val: "+91 120 4167923\n+971 588211690", icon: <FaPhoneAlt />, color: "from-cyan-400 to-blue-500" },
+              { label: "MAKE A CALL", val: "+91-9811885000\n+91-8744885000", icon: <FaPhoneAlt />, color: "from-cyan-400 to-blue-500" },
               { label: "SERVICE SUPPORT", val: "+91-9811885000\n+91-8744885000", icon: <FaPhoneAlt />, color: "from-orange-400 to-orange-600" },
               { label: "GO FOR LOCATION", val: "Sahibabad-201010, UP, India", icon: <FaMapMarkerAlt />, color: "from-cyan-400 to-blue-600" }
             ].map((item, i) => (
-              <motion.div 
-                key={i} 
-                variants={scaleIn}
-                className="relative group cursor-default"
-              >
-                {/* Main Card */}
+              <motion.div key={i} variants={scaleIn} className="relative group cursor-default">
                 <div className="relative h-72 w-full bg-white/5 backdrop-blur-2xl border border-white/10 rounded-2xl p-8 flex flex-col items-center justify-center text-center transition-all duration-500 group-hover:border-orange-500/50 group-hover:bg-white/10 shadow-2xl z-20">
-                  <div className={`absolute -top-10 -right-10 w-32 h-32 bg-gradient-to-br ${item.color} opacity-0 group-hover:opacity-10 blur-3xl transition-opacity duration-500`} />
-                  
-                  <motion.div 
-                    whileHover={{ rotateY: 180, scale: 1.1 }}
-                    className={`w-16 h-16 rounded-full bg-gradient-to-br ${item.color} flex items-center justify-center text-white text-2xl mb-6 shadow-[0_0_20px_rgba(0,0,0,0.3)]`}
-                  >
+                  <div className={`w-16 h-16 rounded-full bg-gradient-to-br ${item.color} flex items-center justify-center text-white text-2xl mb-6 shadow-[0_0_20px_rgba(0,0,0,0.3)]`}>
                     {item.icon}
-                  </motion.div>
-
-                  <p className="text-orange-400 font-black text-[9px] tracking-[4px] mb-3 uppercase">{item.label}</p>
-                  <div className="text-white font-bold text-sm leading-snug whitespace-pre-line tracking-tight">
-                    {item.val}
                   </div>
+                  <p className="text-orange-400 font-black text-[9px] tracking-[4px] mb-3 uppercase">{item.label}</p>
+                  <div className="text-white font-bold text-sm leading-snug whitespace-pre-line tracking-tight">{item.val}</div>
                 </div>
-
-                {/* --- MIRROR REFLECTION --- */}
+                {/* Mirror Reflection */}
                 <div 
                   className="absolute -bottom-[65%] left-0 w-full h-[60%] opacity-20 pointer-events-none select-none scale-y-[-1] blur-[3px] transition-all duration-500 group-hover:opacity-30"
-                  style={{
-                    maskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 80%)',
-                    WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 80%)'
-                  }}
+                  style={{ maskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 80%)', WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 80%)' }}
                 >
-                  <div className="w-full h-full bg-white/5 border border-white/10 rounded-2xl p-8 flex flex-col items-center justify-center text-center">
-                    <div className={`w-16 h-16 rounded-full bg-gradient-to-br ${item.color} opacity-40 mb-6`} />
-                    <div className="h-3 w-20 bg-white/10 rounded mb-2" />
-                    <div className="h-3 w-28 bg-white/10 rounded" />
-                  </div>
+                  <div className="w-full h-full bg-white/5 border border-white/10 rounded-2xl p-8 flex flex-col items-center justify-center text-center" />
                 </div>
               </motion.div>
             ))}
