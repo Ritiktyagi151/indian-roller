@@ -48,14 +48,14 @@ const factoryData = [
 ];
 
 const TeamSection = () => {
-  const [hoveredId, setHoveredId] = useState(null);
-  const [selectedFactory, setSelectedFactory] = useState(null);
+  // Define types so TypeScript knows these can be strings/objects or null
+  const [hoveredId, setHoveredId] = useState<string | null>(null);
+  const [selectedFactory, setSelectedFactory] = useState<(typeof factoryData)[0] | null>(null);
 
   return (
     <section className="bg-[#0d0d0d] text-[#f0ede6] py-20 font-sans">
       <div className="max-w-6xl mx-auto px-6 lg:px-8">
         
-        {/* Headline & Stats (Same as your code) */}
         <p className="text-[#c85a1a] text-[11px] tracking-[4px] uppercase font-medium mb-4">Our Infrastructure</p>
         <h2 className="uppercase leading-[0.9] mb-16" style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "clamp(56px, 8vw, 100px)" }}>
           5 Production <br /> <span className="text-[#333]">Units Worldwide</span>
@@ -110,7 +110,7 @@ const TeamSection = () => {
           ))}
         </ul>
 
-        {/* CTA Bar - Linked to Contact */}
+        {/* CTA Bar */}
         <div className="mt-16 flex flex-col sm:flex-row items-center justify-between border border-[#1e1e1e] px-10 py-10 gap-6">
           <h3 className="text-[#f0ede6] text-center sm:text-left" style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "36px" }}>
             Want to visit our <span className="text-[#c85a1a]">facilities?</span>
@@ -127,7 +127,6 @@ const TeamSection = () => {
       <AnimatePresence>
         {selectedFactory && (
           <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6">
-            {/* Backdrop */}
             <motion.div 
               initial={{ opacity: 0 }} 
               animate={{ opacity: 1 }} 
@@ -136,14 +135,12 @@ const TeamSection = () => {
               className="absolute inset-0 bg-black/90 backdrop-blur-sm"
             />
             
-            {/* Modal Content */}
             <motion.div 
               initial={{ scale: 0.9, opacity: 0, y: 20 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.9, opacity: 0, y: 20 }}
               className="relative bg-[#111] border border-[#222] w-full max-w-4xl overflow-hidden shadow-2xl"
             >
-              {/* Close Button */}
               <button 
                 onClick={() => setSelectedFactory(null)}
                 className="absolute top-4 right-4 z-10 text-white/50 hover:text-white text-2xl"
@@ -152,7 +149,6 @@ const TeamSection = () => {
               </button>
 
               <div className="flex flex-col md:flex-row">
-                {/* Large Image */}
                 <div className="relative w-full md:w-1/2 h-[300px] md:h-[500px]">
                   <Image 
                     src={selectedFactory.image} 
@@ -162,7 +158,6 @@ const TeamSection = () => {
                   />
                 </div>
 
-                {/* Details */}
                 <div className="p-8 md:p-12 flex-1 flex flex-col justify-center">
                   <span className="text-[#c85a1a] text-xs tracking-[4px] uppercase font-bold mb-4 block">
                     Factory Unit {selectedFactory.id}
