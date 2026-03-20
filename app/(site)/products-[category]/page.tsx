@@ -1,15 +1,34 @@
 import axios from "axios";
 import ProductCard from "@/components/products/ProductCard";
 import { notFound } from 'next/navigation';
+import { getSeoMetadataByPath } from "@/lib/seo";
 
-// Static params generate karne ka function taaki build fail na ho
+type CategoryRouteParam = {
+  category: string;
+};
+
+type CategoryRecord = {
+  slug: string;
+};
+
+type ProductRecord = {
+  _id: string;
+  slug?: string;
+  name: string;
+  image?: string;
+  industry?: string;
+  shortDescription?: string;
+  shortDesc?: string;
+  category?: { name?: string } | null;
+};
+
 export async function generateStaticParams() {
   try {
     const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/categories`);
-    const categories = res.data;
+    const categories = res.data as CategoryRecord[];
 
-    return categories.map((cat: any) => ({
-      category: cat.slug, // ensure 'category' matches your folder name [category]
+    return categories.map((cat) => ({
+      category: cat.slug,
     }));
   } catch (error) {
     console.error("Static params fetch error:", error);
@@ -17,26 +36,29 @@ export async function generateStaticParams() {
   }
 }
 
-export default async function CategoryListingPage({ params }: { params: Promise<{ category: string }> }) {
-  // Params ko safely await karna
+export async function generateMetadata({ params }: { params: Promise<CategoryRouteParam> }) {
+  const resolvedParams = await params;
+  return getSeoMetadataByPath(`/products-${resolvedParams.category}`, {
+    title: "Product Category | Indian Roller",
+    description: "Explore industrial roller product categories from Indian Roller.",
+  });
+}
+
+export default async function CategoryListingPage({ params }: { params: Promise<CategoryRouteParam> }) {
   const resolvedParams = await params;
   const categorySlug = resolvedParams?.category;
 
-  // Agar category slug nahi milta toh build crash hone se bachane ke liye return karna
   if (!categorySlug) {
     return notFound();
   }
 
-  // Safe decoding: check lagaya hai taaki undefined par .replace na chale
-  const decodedCategory = categorySlug ? categorySlug.replace(/-/g, ' ') : ""; 
-  
-  let products = [];
+  const decodedCategory = categorySlug ? categorySlug.replace(/-/g, ' ') : "";
+  let products: ProductRecord[] = [];
   try {
     const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/products/category/${categorySlug}`);
-    products = res.data;
+    products = res.data as ProductRecord[];
   } catch (error) {
     console.error("Fetch error:", error);
-    // Build time par error aaye toh crash na ho, products khali rahega
   }
 
   return (
@@ -48,13 +70,13 @@ export default async function CategoryListingPage({ params }: { params: Promise<
             </p>
             <h1 className="text-5xl md:text-8xl font-black text-white uppercase italic tracking-tighter leading-[0.8]">
               {decodedCategory} <br />
-              <span className="text-orange-500">Industry</span>
+              
             </h1>
         </header>
 
         {products.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-            {products.map((item: any) => (
+            {products.map((item) => (
               <ProductCard key={item._id} product={item} />
             ))}
           </div>

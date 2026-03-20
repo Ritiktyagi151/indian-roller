@@ -1,46 +1,122 @@
 "use client";
-import { LayoutDashboard, BookOpen, Package, Calendar, Mail, LogOut } from "lucide-react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
 
-const menuItems = [
-  { name: "Dashboard", icon: <LayoutDashboard size={20}/>, href: "/admin/dashboard" },
-  { name: "Blogs", icon: <BookOpen size={20}/>, href: "/admin/blogs" },
-  { name: "Products", icon: <Package size={20}/>, href: "/admin/products" },
-  { name: "Calendar", icon: <Calendar size={20}/>, href: "/admin/calendar" },
-  { name: "Inquiries", icon: <Mail size={20}/>, href: "/admin/inquiries" },
+import {
+  BookOpenText,
+  ChevronRight,
+  FilePenLine,
+  FileSearch,
+  FolderKanban,
+  Globe,
+  LayoutDashboard,
+  Mail,
+  Package,
+  Settings2,
+  ShieldCheck,
+  SquareLibrary,
+  UserCog,
+} from "lucide-react";
+import Link from "next/link";
+import { usePathname, useSearchParams } from "next/navigation";
+
+const navGroups = [
+  {
+    title: "Dashboard",
+    items: [{ label: "Dashboard", href: "/admin/dashboard", icon: LayoutDashboard }],
+  },
+  {
+    title: "Products",
+    items: [
+      { label: "Product Categories", href: "/admin/categories", icon: FolderKanban },
+      { label: "All Products", href: "/admin/products", icon: SquareLibrary },
+      { label: "Add Product", href: "/admin/add-product", icon: Package },
+    ],
+  },
+  {
+    title: "Blogs",
+    items: [{ label: "All Blogs", href: "/admin/blogs", icon: BookOpenText }],
+  },
+  {
+    title: "SEO Management",
+    items: [
+      { label: "SEO Dashboard", href: "/admin/seo/dashboard", icon: LayoutDashboard },
+      { label: "Pages Manager", href: "/admin/seo/pages", icon: SquareLibrary },
+      { label: "SEO Editor", href: "/admin/seo/editor", icon: FilePenLine },
+      { label: "Global Settings", href: "/admin/seo/settings", icon: Settings2 },
+      { label: "Sitemap Manager", href: "/admin/seo/sitemap", icon: Globe },
+      { label: "Redirect Manager", href: "/admin/seo/redirects", icon: ChevronRight },
+      { label: "SEO Audit", href: "/admin/seo/audit", icon: FileSearch },
+    ],
+  },
+  {
+    title: "Enquiries",
+    items: [
+      { label: "Contact Us Enquiries", href: "/admin/enquiries?tab=contact", icon: Mail },
+      { label: "All Website Form Enquiries", href: "/admin/enquiries?tab=forms", icon: Mail },
+    ],
+  },
+  {
+    title: "Settings",
+    items: [
+      { label: "Admin Profile", href: "/admin/settings?tab=profile", icon: UserCog },
+      { label: "Role Permissions", href: "/admin/settings?tab=roles", icon: ShieldCheck },
+    ],
+  },
 ];
 
 export default function Sidebar() {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const currentQuery = searchParams.toString();
 
   return (
-    <div className="w-64 h-screen bg-[#0f172a] text-slate-300 p-6 fixed left-0 top-0 border-r border-white/5 z-50">
-      <div className="mb-10 px-2">
-        <h1 className="text-xl font-bold text-white tracking-widest">ROLLER <span className="text-blue-500 text-xs">PRO</span></h1>
+    <aside className="w-full shrink-0 overflow-x-auto border-b border-slate-200/80 bg-white/90 px-4 py-4 text-slate-700 backdrop-blur dark:border-slate-800 dark:bg-slate-950/90 dark:text-slate-200 lg:h-screen lg:w-80 lg:overflow-y-auto lg:border-b-0 lg:border-r lg:px-5 lg:py-6">
+      <div className="mb-8 flex items-center gap-3 px-2">
+        <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-orange-500 to-amber-500 text-white shadow-lg shadow-orange-500/20">
+          <LayoutDashboard className="h-5 w-5" />
+        </div>
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-[0.28em] text-slate-400 dark:text-slate-500">
+            Indian Roller
+          </p>
+          <h1 className="text-lg font-semibold text-slate-900 dark:text-white">Admin Panel</h1>
+        </div>
       </div>
-      
-      <nav className="space-y-2">
-        {menuItems.map((item) => (
-          <Link 
-            key={item.href} 
-            href={item.href}
-            className={`flex items-center gap-4 p-3 rounded-xl transition-all ${
-              pathname === item.href ? "bg-blue-600 text-white shadow-lg shadow-blue-600/20" : "hover:bg-white/5 hover:text-white"
-            }`}
-          >
-            {item.icon}
-            <span className="text-sm font-medium">{item.name}</span>
-          </Link>
-        ))}
-      </nav>
 
-      <div className="absolute bottom-10 left-6 right-6">
-        <button className="flex items-center gap-4 p-3 w-full text-red-400 hover:bg-red-500/10 rounded-xl transition-all">
-          <LogOut size={20}/>
-          <span className="text-sm font-medium">Logout</span>
-        </button>
+      <div className="space-y-6">
+        {navGroups.map((group) => (
+          <div key={group.title}>
+            <p className="mb-2 px-3 text-xs font-semibold uppercase tracking-[0.28em] text-slate-400 dark:text-slate-500">
+              {group.title}
+            </p>
+            <div className="flex gap-2 overflow-x-auto lg:block lg:space-y-1">
+              {group.items.map((item) => {
+                const Icon = item.icon;
+                const [itemPath, itemQuery = ""] = item.href.split("?");
+                const isActive =
+                  pathname === itemPath && (itemQuery ? currentQuery === itemQuery : true);
+
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className={`flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-medium transition ${
+                      isActive
+                        ? "bg-slate-900 text-white shadow-lg shadow-slate-900/10 dark:bg-orange-500"
+                        : "hover:bg-slate-100 hover:text-slate-900 dark:hover:bg-slate-900 dark:hover:text-white"
+                    }`}
+                  >
+                    <span className="flex items-center gap-3">
+                      <Icon className="h-4 w-4" />
+                      {item.label}
+                    </span>
+                    <ChevronRight className="h-4 w-4 opacity-50" />
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+        ))}
       </div>
-    </div>
+    </aside>
   );
 }

@@ -2,9 +2,23 @@
 import { motion, useMotionValue, useTransform } from "framer-motion";
 import Link from "next/link";
 
-export default function BlogCard({ blog }: any) {
+type BlogCardData = {
+  _id: string;
+  slug?: string;
+  title: string;
+  image?: string;
+  featuredImage?: string;
+  category?: string;
+  customDate?: string;
+  createdAt?: string;
+  metaDescription?: string;
+  description?: string;
+};
+
+export default function BlogCard({ blog }: { blog: BlogCardData }) {
   const x = useMotionValue(0);
   const y = useMotionValue(0);
+  const displayDate = blog.customDate || blog.createdAt;
 
   // Smooth 3D tilt effect values
   const rotateX = useTransform(y, [-100, 100], [15, -15]);
@@ -40,7 +54,7 @@ export default function BlogCard({ blog }: any) {
               className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out" 
             />
             <div className="absolute bottom-4 right-4 bg-black/60 backdrop-blur-md text-white text-[10px] px-3 py-1 rounded-full border border-white/10 z-20">
-              {new Date(blog.createdAt).toLocaleDateString()}
+              {displayDate ? new Date(displayDate).toLocaleDateString() : ""}
             </div>
           </div>
 

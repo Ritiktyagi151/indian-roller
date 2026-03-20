@@ -1,9 +1,20 @@
 "use client";
 
-export default function BlogContent({ data }: { data: any }) {
-  if (!data) return <div className="animate-pulse h-screen bg-zinc-900 rounded-[3rem]" />;
+type BlogContentData = {
+  title: string;
+  category?: string;
+  customDate?: string;
+  createdAt?: string;
+  image?: string;
+  description?: string;
+  metaDescription?: string;
+};
 
-  const getImageUrl = (path: string) => {
+export default function BlogContent({ data }: { data: BlogContentData | null }) {
+  if (!data) return <div className="animate-pulse h-screen bg-zinc-900 rounded-[3rem]" />;
+  const displayDate = data.customDate || data.createdAt;
+
+  const getImageUrl = (path?: string) => {
     if (!path) return "";
     const baseUrl = process.env.NEXT_PUBLIC_API_URL?.replace('/api', '');
     return path.startsWith('/') ? `${baseUrl}${path}` : path;
@@ -12,7 +23,7 @@ export default function BlogContent({ data }: { data: any }) {
   return (
     <article className="w-full">
       {/* Header Section */}
-      <h1 className="text-3xl md:text-5xl lg:text-7xl font-black mb-6 leading-[1.1] text-white tracking-tighter uppercase italic">
+      <h1 className="text-2xl md:text-3xl lg:text-4xl font-black mb-6 leading-[1.1] text-white tracking-tighter uppercase italic">
         {data.title}
       </h1>
 
@@ -21,7 +32,7 @@ export default function BlogContent({ data }: { data: any }) {
           {data.category}
         </span>
         <span className="text-zinc-500 text-xs font-bold uppercase tracking-widest italic">
-          {new Date(data.createdAt).toLocaleDateString()}
+          {displayDate ? new Date(displayDate).toLocaleDateString() : ""}
         </span>
       </div>
       
@@ -31,28 +42,16 @@ export default function BlogContent({ data }: { data: any }) {
       </div>
 
       {/* 🔥 Structured Pure White Content Area */}
-      <div 
-        className="prose prose-invert max-w-none 
-        text-white
-        prose-p:text-white prose-p:text-lg prose-p:leading-relaxed
-        prose-headings:text-orange-500 prose-headings:font-black prose-headings:uppercase
-        prose-strong:text-white prose-strong:font-black
-        prose-ul:text-white prose-li:text-white
-        
-        /* Image & Alignment Handling */
-        [&_img]:max-w-full [&_img]:h-auto [&_img]:inline-block [&_img]:rounded-[1.5rem] [&_img]:border [&_img]:border-white/10 [&_img]:my-6
-        [&_.ql-align-center]:text-center [&_.ql-align-center_img]:mx-auto [&_.ql-align-center]:block
-        [&_.ql-align-right]:text-right [&_.ql-align-right_img]:ml-auto [&_.ql-align-right]:block
-        "
-        /* ✅ Fixed Syntax Error */
-        dangerouslySetInnerHTML={{ __html: data.description || "" }} 
-      />
+   <div
+  className="blog-content"
+  dangerouslySetInnerHTML={{ __html: data.description || "" }}
+/>
 
       {/* Summary Box */}
       {data.metaDescription && (
         <div className="mt-16 p-8 md:p-12 rounded-[2.5rem] md:rounded-[3rem] bg-zinc-900/50 border border-orange-500/20 relative overflow-hidden italic font-black">
           <h4 className="text-orange-500 text-[10px] tracking-[0.4em] uppercase mb-4">Quick Summary</h4>
-          <p className="text-xl md:text-2xl text-white leading-tight">"{data.metaDescription}"</p>
+          <p className="text-xl md:text-2xl text-white leading-tight">&quot;{data.metaDescription}&quot;</p>
         </div>
       )}
     </article>

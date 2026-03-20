@@ -1,8 +1,9 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { motion, Variants } from "framer-motion";
-import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt, FaIndustry, FaPaperPlane, FaGlobeAmericas } from "react-icons/fa";
+import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt, FaIndustry, FaPaperPlane, FaBuilding, FaGlobe } from "react-icons/fa";
 import Image from "next/image";
+import api from "@/lib/axios";
 
 // --- EXISTING ANIMATIONS ---
 const slideFromLeft: Variants = {
@@ -26,22 +27,13 @@ const scaleIn: Variants = {
   }
 };
 
-const fadeInUp: Variants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: { 
-    opacity: 1, 
-    y: 0, 
-    transition: { duration: 0.6, ease: "easeOut" } 
-  }
-};
-
 const staggerContainer: Variants = {
   hidden: { opacity: 0 },
   visible: { opacity: 1, transition: { staggerChildren: 0.2 } }
 };
 
 const plants = [
-  { id: "01", name: "Unit - 1 (Sahibabad)", address: "Plot No. 62/2/1&2, Site IV, Industrial Area, Sahibabad-201010 UP", phone: "+91-9540408844", img: "/team-img/DSC_4293.JPG" },
+  { id: "01", name: "Unit - 1 (Sahibabad)", address: "Plot No. 62/2/1&2, Site IV, Industrial Area, Sahibabad-201010 UP", phone: "+91-9540408844", img: "/team-img/shahibabad.JPG" },
   { id: "02", name: "Unit - 2 (Jamshedpur)", address: "Shed no.1, Plot No-743, Ghamaria, Jamshedpur, Jharkhand - 832108", phone: "+91-8744885000", img: "/team-img/jamshedpur-team.JPG" },
   { id: "03", name: "Unit - 3 (Ahmedabad)", address: "Plot No. 226 to 229, Gopalcharan-2, Industrial Park, Ahmedabad-382433", phone: "+91-9376921082", img: "/team-img/ahmdabad.JPG" },
   { id: "04", name: "Unit - 4 (Ballari)", address: "Property No-5331481412, Kurekuppa Village, Sandur, Ballari, Karnataka - 583119", phone: "+91-9540404842", img: "/team-img/kanatka2.JPG" },
@@ -49,6 +41,45 @@ const plants = [
 ];
 
 export default function ContactClient() {
+  const [form, setForm] = useState({
+    name: "",
+    phone: "",
+    email: "",
+    company: "",
+    location: "",
+    interest: "",
+    quantity: "",
+    message: "",
+  });
+  const [submitState, setSubmitState] = useState<"idle" | "saving" | "success" | "error">("idle");
+
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setSubmitState("saving");
+
+    try {
+      await api.post("/enquiries", {
+        name: form.name,
+        phone: form.phone,
+        email: form.email,
+        message: `Company: ${form.company} | Location: ${form.location} | Qty: ${form.quantity} | Note: ${form.message}`,
+        sourceType: "contact",
+        formName: "Detailed Inquiry",
+        metadata: {
+          interest: form.interest,
+          company: form.company,
+          location: form.location,
+          quantity: form.quantity
+        },
+      });
+
+      setForm({ name: "", phone: "", email: "", company: "", location: "", interest: "", quantity: "", message: "" });
+      setSubmitState("success");
+    } catch {
+      setSubmitState("error");
+    }
+  }
+
   return (
     <main className="bg-white overflow-hidden text-sm md:text-base font-sans">
       
@@ -61,7 +92,7 @@ export default function ContactClient() {
           playsInline 
           className="absolute inset-0 w-full h-full object-cover grayscale-[40%]"
         >
-          <source src="/videos/news-video.mp4" type="video/mp4" /> {/* Apni video ka path yahan check karein */}
+          <source src="/videos/news-video.mp4" type="video/mp4" />
         </video>
         
         <div className="absolute inset-0 z-10 bg-black/60" /> 
@@ -83,7 +114,7 @@ export default function ContactClient() {
         </div>
       </section>
 
-      {/* --- SPLIT SECTION: Form vs Map (Same Style) --- */}
+      {/* --- SPLIT SECTION: Form vs Map --- */}
       <section className="grid grid-cols-1 lg:grid-cols-2">
         <motion.div 
           initial="hidden" 
@@ -94,41 +125,77 @@ export default function ContactClient() {
         >
           <div className="absolute top-0 left-0 w-full h-1.5 bg-orange-500" />
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-black uppercase mb-4 leading-tight">
-            Quick <span className="text-orange-500">Inquiry</span>
+            Detailed <span className="text-orange-500">Inquiry</span>
           </h2>
-          <p className="text-gray-500 text-xs uppercase tracking-widest mb-8 font-bold">Fill the details, and we'll handle the rest.</p>
+          <p className="text-gray-500 text-xs uppercase tracking-widest mb-8 font-bold">Provide your requirements for a precise quotation.</p>
           
-          <form className="space-y-6 lg:space-y-8">
+          <form className="space-y-6 lg:space-y-8" onSubmit={handleSubmit}>
+            {/* Row 1: Name & Phone */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
               <div className="relative group">
-                <input type="text" className="w-full bg-transparent border-b border-white/20 p-3 outline-none focus:border-orange-500 transition-all peer" placeholder=" " required />
+                <input type="text" value={form.name} onChange={(event) => setForm((current) => ({ ...current, name: event.target.value }))} className="w-full bg-transparent border-b border-white/20 p-3 outline-none focus:border-orange-500 transition-all peer" placeholder=" " required />
                 <label className="absolute left-0 top-3 text-gray-400 transition-all peer-focus:-top-4 peer-focus:text-orange-500 peer-focus:text-[10px] uppercase font-bold tracking-widest">Your Name *</label>
               </div>
               <div className="relative group">
-                <input type="tel" className="w-full bg-transparent border-b border-white/20 p-3 outline-none focus:border-orange-500 transition-all peer" placeholder=" " required />
+                <input type="tel" value={form.phone} onChange={(event) => setForm((current) => ({ ...current, phone: event.target.value }))} className="w-full bg-transparent border-b border-white/20 p-3 outline-none focus:border-orange-500 transition-all peer" placeholder=" " required />
                 <label className="absolute left-0 top-3 text-gray-400 transition-all peer-focus:-top-4 peer-focus:text-orange-500 peer-focus:text-[10px] uppercase font-bold tracking-widest">Phone Number *</label>
               </div>
             </div>
 
+            {/* Row 2: Email & Company */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+              <div className="relative group">
+                <input type="email" value={form.email} onChange={(event) => setForm((current) => ({ ...current, email: event.target.value }))} className="w-full bg-transparent border-b border-white/20 p-3 outline-none focus:border-orange-500 transition-all peer" placeholder=" " required />
+                <label className="absolute left-0 top-3 text-gray-400 transition-all peer-focus:-top-4 peer-focus:text-orange-500 peer-focus:text-[10px] uppercase font-bold tracking-widest">Email Address *</label>
+              </div>
+              <div className="relative group">
+                <input type="text" value={form.company} onChange={(event) => setForm((current) => ({ ...current, company: event.target.value }))} className="w-full bg-transparent border-b border-white/20 p-3 outline-none focus:border-orange-500 transition-all peer" placeholder=" " />
+                <label className="absolute left-0 top-3 text-gray-400 transition-all peer-focus:-top-4 peer-focus:text-orange-500 peer-focus:text-[10px] uppercase font-bold tracking-widest">Company Name</label>
+              </div>
+            </div>
+
+            {/* Row 3: Product Interest & Quantity */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+                <div className="relative group">
+                <select value={form.interest} onChange={(event) => setForm((current) => ({ ...current, interest: event.target.value }))} className="w-full bg-transparent border-b border-white/20 p-3 outline-none focus:border-orange-500 transition-all peer appearance-none text-gray-400 focus:text-white cursor-pointer" required>
+                    <option value="" disabled className="bg-[#111]">Interested In?</option>
+                    <option value="rubber-rollers" className="bg-[#111]">Rubber Rollers</option>
+                    <option value="pu-rollers" className="bg-[#111]">Polyurethane Rollers</option>
+                    <option value="maintenance" className="bg-[#111]">Maintenance & Service</option>
+                    <option value="other" className="bg-[#111]">Other Products</option>
+                </select>
+                <div className="absolute right-2 top-4 pointer-events-none text-orange-500">▼</div>
+                </div>
+                <div className="relative group">
+                <input type="text" value={form.quantity} onChange={(event) => setForm((current) => ({ ...current, quantity: event.target.value }))} className="w-full bg-transparent border-b border-white/20 p-3 outline-none focus:border-orange-500 transition-all peer" placeholder=" " />
+                <label className="absolute left-0 top-3 text-gray-400 transition-all peer-focus:-top-4 peer-focus:text-orange-500 peer-focus:text-[10px] uppercase font-bold tracking-widest">Est. Quantity</label>
+                </div>
+            </div>
+
+            {/* Row 4: Location */}
             <div className="relative group">
-              <select className="w-full bg-transparent border-b border-white/20 p-3 outline-none focus:border-orange-500 transition-all peer appearance-none text-gray-400 focus:text-white cursor-pointer" required defaultValue="">
-                <option value="" disabled className="bg-[#111]">Interested In?</option>
-                <option value="rubber-rollers" className="bg-[#111]">Rubber Rollers</option>
-                <option value="pu-rollers" className="bg-[#111]">Polyurethane Rollers</option>
-                <option value="maintenance" className="bg-[#111]">Maintenance & Service</option>
-                <option value="other" className="bg-[#111]">Other Products</option>
-              </select>
-              <div className="absolute right-2 top-4 pointer-events-none text-orange-500">▼</div>
+              <input type="text" value={form.location} onChange={(event) => setForm((current) => ({ ...current, location: event.target.value }))} className="w-full bg-transparent border-b border-white/20 p-3 outline-none focus:border-orange-500 transition-all peer" placeholder=" " />
+              <label className="absolute left-0 top-3 text-gray-400 transition-all peer-focus:-top-4 peer-focus:text-orange-500 peer-focus:text-[10px] uppercase font-bold tracking-widest">City / State / Country</label>
             </div>
 
             <div className="relative group">
-              <textarea rows={2} className="w-full bg-transparent border-b border-white/20 p-3 outline-none focus:border-orange-500 transition-all peer resize-none" placeholder=" " />
-              <label className="absolute left-0 top-3 text-gray-400 transition-all peer-focus:-top-4 peer-focus:text-orange-500 peer-focus:text-[10px] uppercase font-bold tracking-widest">Anything else? (Optional)</label>
+              <textarea rows={2} value={form.message} onChange={(event) => setForm((current) => ({ ...current, message: event.target.value }))} className="w-full bg-transparent border-b border-white/20 p-3 outline-none focus:border-orange-500 transition-all peer resize-none" placeholder=" " />
+              <label className="absolute left-0 top-3 text-gray-400 transition-all peer-focus:-top-4 peer-focus:text-orange-500 peer-focus:text-[10px] uppercase font-bold tracking-widest">Specific Specifications or Notes</label>
             </div>
 
-            <button className="w-full py-4 md:py-5 bg-orange-500 font-black uppercase tracking-[3px] text-sm hover:bg-white hover:text-black transition-all duration-500 flex items-center justify-center gap-4 group">
-              Send Quick Request <FaPaperPlane className="group-hover:translate-x-2 transition-transform" />
+            <button type="submit" className="w-full py-4 md:py-5 bg-orange-500 font-black uppercase tracking-[3px] text-sm hover:bg-white hover:text-black transition-all duration-500 flex items-center justify-center gap-4 group">
+              Send Detailed Request <FaPaperPlane className="group-hover:translate-x-2 transition-transform" />
             </button>
+            {submitState === "success" ? (
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-emerald-400">
+                Inquiry submitted successfully.
+              </p>
+            ) : null}
+            {submitState === "error" ? (
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-rose-400">
+                Submission failed. Please try again.
+              </p>
+            ) : null}
           </form>
         </motion.div>
 
@@ -140,7 +207,7 @@ export default function ContactClient() {
           className="h-[400px] lg:h-auto bg-gray-900 relative"
         >
           <iframe 
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3500.957588383321!2d77.34149667529023!3d28.660993575647565!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cf09848f029a1%3A0xc3f7a43f80c5f0f0!2sIndian%20Roller!5e0!3m2!1sen!2sin!4v1708420000000" 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3500.957591605664!2d77.33878797616644!3d28.661001183115497!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cfb2e6178619d%3A0xc6657c9f6929e577!2sINDIAN%20ROLLER%20(I)%20PVT.%20LTD.!5e0!3m2!1sen!2sin!4v1710000000000!5m2!1sen!2sin" 
             className="w-full h-full border-0 grayscale invert opacity-70 contrast-125 hover:grayscale-0 hover:invert-0 hover:opacity-100 transition-all duration-1000"
             allowFullScreen={true}
             title="IRI Location Map"
@@ -167,7 +234,6 @@ export default function ContactClient() {
                 initial="hidden" whileInView="visible" viewport={{ once: false, amount: 0.3 }}
                 className={`flex flex-col lg:flex-row items-center gap-10 md:gap-16 ${i % 2 !== 0 ? "lg:flex-row-reverse" : ""}`}
               >
-                {/* Image Section */}
                 <div className="lg:w-1/2 w-full h-[300px] md:h-[400px] relative group overflow-hidden shadow-2xl rounded-sm">
                     <Image 
                         src={unit.img} 
@@ -178,7 +244,6 @@ export default function ContactClient() {
                     <div className="absolute inset-0 bg-orange-500/10 group-hover:bg-transparent transition-all duration-500" />
                 </div>
 
-                {/* Content Section */}
                 <div className="lg:w-1/2 group relative w-full">
                   <motion.div 
                     whileHover={{ y: -5 }}
@@ -205,7 +270,7 @@ export default function ContactClient() {
         </div>
       </section>
 
-      {/* --- QUICK LINKS (Same Style) --- */}
+      {/* --- QUICK LINKS --- */}
       <motion.section 
         variants={staggerContainer} 
         initial="hidden" 
@@ -230,7 +295,6 @@ export default function ContactClient() {
                   <p className="text-orange-400 font-black text-[9px] tracking-[4px] mb-3 uppercase">{item.label}</p>
                   <div className="text-white font-bold text-sm leading-snug whitespace-pre-line tracking-tight">{item.val}</div>
                 </div>
-                {/* Mirror Reflection */}
                 <div 
                   className="absolute -bottom-[65%] left-0 w-full h-[60%] opacity-20 pointer-events-none select-none scale-y-[-1] blur-[3px] transition-all duration-500 group-hover:opacity-30"
                   style={{ maskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 80%)', WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 80%)' }}

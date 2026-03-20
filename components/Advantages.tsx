@@ -36,7 +36,7 @@ export default function AdvantagesSection() {
     <section className="relative w-full bg-white overflow-hidden">
       {/* --- TOP SECTION: Cards --- */}
       {/* Desktop style wahi rakha hai (inset-y classes ke sath), Mobile ke liye stack kiya hai */}
-      <div className="max-w-7xl mx-auto px-6 pb-24 grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-4 relative z-20">
+      <div className="max-w-7xl mx-auto px-6 pb-12 grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-4 relative z-20">
         
         {/* Left Card */}
         <motion.div 
@@ -44,11 +44,11 @@ export default function AdvantagesSection() {
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: false, amount: 0.2 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="relative h-[450px] md:inset-y-64 group overflow-hidden"
+          className="relative h-[450px] md:inset-y-64 rounded-2xl group overflow-hidden"
         >
           <Image src="/71v8jfCWSvL._AC_UF1000,1000_QL80_.jpg" alt="Architecture" fill className="object-cover transition-transform duration-500 group-hover:scale-110" />
           <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-             <h3 className="text-white font-bold tracking-[3px] uppercase">Architecture</h3>
+             {/* <h3 className="text-white font-bold tracking-[3px] uppercase">Architecture</h3> */}
           </div>
         </motion.div>
 
@@ -58,11 +58,11 @@ export default function AdvantagesSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: false, amount: 0.2 }}
           transition={{ duration: 0.8, ease: "easeOut", delay: 0.1 }}
-          className="relative h-[450px] md:inset-y-44 group overflow-hidden"
+          className="relative h-[450px] md:inset-y-44 rounded-2xl group overflow-hidden"
         >
           <Image src="/China-Decai-Rubber-Roller-Factory-Neoprene-Rubber-Coating-Conveyor-Roller.avif" alt="Engineering" fill className="object-cover transition-transform duration-500 group-hover:scale-110" />
           <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-             <h3 className="text-white font-bold tracking-[3px] uppercase">Engineering</h3>
+             {/* <h3 className="text-white font-bold tracking-[3px] uppercase">Engineering</h3> */}
           </div>
         </motion.div>
 
@@ -72,11 +72,11 @@ export default function AdvantagesSection() {
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: false, amount: 0.2 }}
           transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
-          className="relative h-[450px] group md:inset-y-24 overflow-hidden"
+          className="relative h-[450px] group rounded-2xl md:inset-y-28 overflow-hidden"
         >
           <Image src="/industrial-roller-conveyor-with-metal-rollers-and-vibrant-yellow-rails-in-a-spacious-modern-warehouse-or-manufacturing-facility-with-bright-overhead-lighting-photo.jpg" alt="Interior" fill className="object-cover transition-transform duration-500 group-hover:scale-110" />
           <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-             <h3 className="text-white font-bold tracking-[3px] uppercase">Interior Design</h3>
+             {/* <h3 className="text-white font-bold tracking-[3px] uppercase">Interior Design</h3> */}
           </div>
         </motion.div>
       </div>

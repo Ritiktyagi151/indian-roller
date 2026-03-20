@@ -72,8 +72,8 @@ const Navbar = () => {
         isScrolled ? "h-0 opacity-0 border-none" : "h-[45px] py-3 opacity-100"
       }`}>
         <div className="max-w-7xl mx-auto flex justify-between items-center text-[12px] opacity-80 uppercase tracking-widest font-bold">
-          <div className="flex gap-8">
-            <Link href="tel:+911234567890" className="flex items-center gap-2 hover:text-orange-500 transition"><FaPhoneAlt className="text-orange-500"/> +91 12345 67890</Link>
+          <div className="flex gap-8 ml-10">
+            <Link href="tel:+911234567890" className="flex items-center gap-2 hover:text-orange-500 transition"><FaPhoneAlt className="text-orange-500"/>+91-9811885000</Link>
             <Link href="mailto:info@indianroller.com" className="flex items-center gap-2 hover:text-orange-500 transition"><FaEnvelope className="text-orange-500"/> info@indianroller.com</Link>
           </div>
           <div className="flex gap-5 text-lg">
@@ -105,7 +105,7 @@ const Navbar = () => {
                 alt="Indian Roller Logo" 
                 width={180} 
                 height={50} 
-                className={`transition-all duration-500 w-auto ${isScrolled ? "h-10 md:h-17" : "h-10 md:h-20"}`} 
+                className={`transition-all inset-12 duration-500 w-auto ${isScrolled ? "h-10 md:h-17" : "h-10 md:h-36"}`} 
               />
             </Link>
           </motion.div>

@@ -4,8 +4,17 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import api from "@/lib/axios";
 
-export default function Sidebar({ currentBlog }: any) {
-  const [recentPosts, setRecentPosts] = useState([]);
+type SidebarBlog = {
+  _id: string;
+  slug?: string;
+  title: string;
+  image?: string;
+  customDate?: string;
+  createdAt?: string;
+};
+
+export default function Sidebar({ currentBlog }: { currentBlog: SidebarBlog | null }) {
+  const [recentPosts, setRecentPosts] = useState<SidebarBlog[]>([]);
   const currentId = currentBlog?._id || "";
   const baseUrl = process.env.NEXT_PUBLIC_API_URL?.replace('/api', '');
 
@@ -14,7 +23,7 @@ export default function Sidebar({ currentBlog }: any) {
       try {
         const res = await api.get("/blogs");
         const filtered = res.data
-          .filter((post: any) => post._id !== currentId)
+          .filter((post: SidebarBlog) => post._id !== currentId)
           .slice(0, 3);
         setRecentPosts(filtered);
       } catch (err) {
@@ -46,9 +55,10 @@ export default function Sidebar({ currentBlog }: any) {
           Recent Articles
         </h4>
         <div className="space-y-6">
-          {recentPosts.map((post: any) => {
+          {recentPosts.map((post) => {
             const postIdentifier = post.slug || post._id;
             const postImage = post.image?.startsWith('/') ? `${baseUrl}${post.image}` : post.image;
+            const displayDate = post.customDate || post.createdAt;
             
             return (
               <motion.div key={post._id} whileHover={{ x: 5 }} className="group">
@@ -61,7 +71,7 @@ export default function Sidebar({ currentBlog }: any) {
                       {post.title}
                     </h5>
                     <span className="text-[10px] text-gray-500 uppercase mt-1 block tracking-tighter">
-                      {new Date(post.createdAt).toLocaleDateString()}
+                      {displayDate ? new Date(displayDate).toLocaleDateString() : ""}
                     </span>
                   </div>
                 </Link>

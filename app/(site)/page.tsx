@@ -4,25 +4,33 @@ import Advantages from "../../components/Advantages";
 import Projects from "@/components/Projects";
 import Partners from "@/components/Partners";
 import Insights from "@/components/Insights";
-import ScrollExperience from "@/components/ScrollExperience";
-import UnitsSection from "@/components/Units";
 import WhyChooseUs from "@/components/WhyChooseUs";
-
 import BlogSlider from "@/components/BlogSlider";
 import TeamSection from "@/components/TeamSection";
+// import ProductSection from "@/components/ProductSectionLive";
+import { getSeoMetadataByPath } from "@/lib/seo";
+import IndustrialSourcesSection from "@/components/IndustrialSourcesSection";
+import ProductSection from "@/components/ProductSection";
+
+export async function generateMetadata() {
+  return getSeoMetadataByPath("/", {
+    title: "Indian Roller | Premium Industrial Solutions",
+    description: "Industrial rollers, coatings, and engineered solutions from Indian Roller.",
+  });
+}
 
 export default function Home() {
   return (
-    <main>
+    <main className="" >
       <Hero />
-      <AboutSection />
+     <AboutSection />
+     <ProductSection/>
       <TeamSection/>
       <Advantages />
+      <IndustrialSourcesSection/>
       <Projects/>
       <Partners/>
       <Insights/>
-      {/* <ScrollExperience/> */}
-      <UnitsSection/>
       <WhyChooseUs/>
       <BlogSlider/>
     </main>

@@ -3,11 +3,22 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 
-export default function ProductCard({ product }: any) {
+type ProductCardData = {
+  slug?: string;
+  name: string;
+  image?: string;
+  industry?: string;
+  shortDescription?: string;
+  shortDesc?: string;
+  category?: { name?: string } | null;
+};
+
+export default function ProductCard({ product }: { product: ProductCardData }) {
   const baseUrl = process.env.NEXT_PUBLIC_API_URL?.replace('/api', '');
   const displayImage = product.image?.startsWith('/') && !product.image.startsWith('/images') 
     ? `${baseUrl}${product.image}` 
     : product.image;
+  const shortText = product.shortDescription || product.shortDesc || "Precision engineered industrial roller solution.";
 
   return (
     // 🔥 Clean URL: /products- hatakar ab seedha slug use hoga
@@ -36,7 +47,7 @@ export default function ProductCard({ product }: any) {
               {product.name}
             </h3>
             <p className="text-gray-500 text-xs line-clamp-2 font-bold uppercase tracking-wider leading-relaxed">
-              {product.shortDesc || "Precision engineered industrial roller solution."}
+              {shortText}
             </p>
           </div>
 
